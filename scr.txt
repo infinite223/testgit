@@ -1,0 +1,151 @@
+var basic = "https://api.openweathermap.org/data/2.5/weather?q=";
+var myid = "&appid=5a43fa0325db524e715a7a82f5716823";
+var city = "";
+function weather(){
+     city = (document.getElementById("city"));
+     city = String(city.value);
+     $.getJSON(basic+city+myid, function(data)
+    {
+    var speed = data.wind.speed;
+    document.getElementById("speed_out").value =speed;
+    });
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+import "../App.css";
+import React, { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
+
+
+function Todo() {
+  const [city, setCity] = useState( );
+  const [speed, setSpeed] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+
+  useEffect(() => {
+    const basicAdress = "https://api.openweathermap.org/data/2.5/weather?q="
+    const id = "&appid=5a43fa0325db524e715a7a82f5716823"
+  //  setCity(String(document.getElementsByClassName("cityName").value))
+fetch(
+  basicAdress+city+id,
+  {
+    method: "GET",
+    headers: new Headers({
+      Accept: "application/vnd.github.cloak-preview"
+    })
+  }
+)
+  .then(res => res.json())
+  .then(json => {
+    setSpeed(json.wind.speed);
+    setIsLoading(false);
+  })
+  .catch(error => console.log(error));
+}, [city]);
+
+
+  const ChangeCity = () =>{
+    setCity(String(document.getElementById("cityName").value))
+  }
+  return (
+    <div>
+      <h1> API calls with React Hooks </h1>
+      {isLoading && <p>Wait I'm Loading comments for you</p>}
+      <input id="cityName" type="text" onChange={ChangeCity}/>
+     <br />
+     miasto:  {city}<br />
+     predkość wiatru: {speed}
+       
+       
+      
+    </div>
+  );
+}
+
+
+export default Todo;
+
+
+
+
+/////////////////////////////////////////////////////////////
+import "../App.css";
+import React, { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
+
+function TodoForm({ addTodo }) {
+  const [value, setValue] = useState("");
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    if (!value) return;
+    addTodo(value);
+    setValue("");
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        className="input"
+        value={value}
+        onChange={e => setValue(e.target.value)}
+      />
+    </form>
+  );
+}
+
+
+function Todo() {
+  const [city, setCity] = useState();
+  const [speed, setSpeed] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const addTodo = city => {
+    const newTodos = [...city, { city }];
+    setCity(newTodos);
+  };
+
+  useEffect(() => {
+    const basicAdress = "https://api.openweathermap.org/data/2.5/weather?q="
+    const id = "&appid=5a43fa0325db524e715a7a82f5716823"
+  //  setCity(String(document.getElementsByClassName("cityName").value))
+fetch(
+  basicAdress+city+id,
+  {
+    method: "GET",
+    headers: new Headers({
+      Accept: "application/vnd.github.cloak-preview"
+    })
+  }
+)
+  .then(res => res.json())
+  .then(json => {
+    setSpeed(json.wind.speed);
+    setIsLoading(false);
+  })
+  .catch(error => console.log(error));
+}, [city]);
+
+
+  const ChangeCity = () =>{
+    setCity(String(document.getElementById("cityName").value))
+  }
+  return (
+    <div>
+      <h1> API calls with React Hooks </h1>
+      {isLoading && <p>Wait I'm Loading comments for you</p>}
+      <input id="cityName" type="text" />
+      <button  onClick={ChangeCity}>Click</button><br />
+     miasto:  {city}<br />
+     predkość wiatru: {speed}
+     <TodoForm addTodo={addTodo} />
+       
+      
+    </div>
+  );
+}
+
+
+export default Todo;
